@@ -1,25 +1,15 @@
-package ru.roh.springdemo.models;
+package ru.roh.springdemo.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
-import org.hibernate.validator.constraints.UniqueElements;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import ru.roh.springdemo.models.User;
 
 @Data
-@Entity
-@Table(name = "Users")
-public class User {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class UserDTO {
     @NotEmpty(message = "Firstname should not be empty")
     @Size(min = 2, max = 30, message = "Firstname should be between 2 and 30 characters")
     private String firstName;
@@ -34,13 +24,5 @@ public class User {
     // TODO @JsonIgnore
     private String password;
     @Enumerated(EnumType.STRING)
-    private Role role; // например, "MANAGER" или "USER"
-
-    @OneToMany(mappedBy = "assignee")
-    private List<Task> tasks = new ArrayList<>();  // Связь с задачами
-
-    public enum Role{
-        MANAGER, USER
-    }
-
+    private User.Role role; // например, "MANAGER" или "USER"
 }

@@ -8,6 +8,7 @@ import ru.roh.springdemo.models.User;
 import ru.roh.springdemo.repositories.ProjectRepository;
 import ru.roh.springdemo.repositories.TaskRepository;
 import ru.roh.springdemo.repositories.UserRepository;
+import ru.roh.springdemo.utils.NotFoundException;
 
 import java.util.List;
 
@@ -22,6 +23,9 @@ public class TaskService {
 
     @Autowired
     private ProjectRepository projectRepository;
+    public List<Task> getAll(){
+        return taskRepository.findAll();
+    }
 
     // Создание новой задачи
     public Task createTask(Task task) {
@@ -30,8 +34,7 @@ public class TaskService {
 
     // Получить задачу по ID
     public Task getTaskById(Long id) {
-        return taskRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Task not found"));
+        return taskRepository.findById(id).orElseThrow(() -> new NotFoundException("Task with this ID not found"));
     }
 
     // Получить задачи по статусу
@@ -50,7 +53,7 @@ public class TaskService {
     }
 
     // Обновление статуса задачи
-    public Task updateTaskStatus(Long taskId, String newStatus) {
+    public Task updateTaskStatus(Long taskId, Task.Status newStatus) {
         Task task = getTaskById(taskId);
         task.setStatus(newStatus);
         return taskRepository.save(task);

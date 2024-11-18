@@ -10,7 +10,6 @@ import java.util.List;
 
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Long> {
-
     // Найти задачи по статусу
     List<Task> findByStatus(String status);
 

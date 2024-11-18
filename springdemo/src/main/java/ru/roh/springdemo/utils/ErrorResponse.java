@@ -1,10 +1,10 @@
 package ru.roh.springdemo.utils;
 
-public class UserErrorResponse {
+public class ErrorResponse {
     private String message;
     private Long timeStamp;
 
-    public UserErrorResponse(String message, Long timeStamp) {
+    public ErrorResponse(String message, Long timeStamp) {
         this.message = message;
         this.timeStamp = timeStamp;
     }

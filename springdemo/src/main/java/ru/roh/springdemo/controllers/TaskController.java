@@ -2,6 +2,7 @@ package ru.roh.springdemo.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.roh.springdemo.models.Project;
 import ru.roh.springdemo.models.Task;
@@ -9,6 +10,8 @@ import ru.roh.springdemo.models.User;
 import ru.roh.springdemo.repositories.ProjectRepository;
 import ru.roh.springdemo.repositories.UserRepository;
 import ru.roh.springdemo.services.TaskService;
+import ru.roh.springdemo.utils.ErrorResponse;
+import ru.roh.springdemo.utils.NotFoundException;
 
 import java.util.List;
 
@@ -32,12 +35,23 @@ public class TaskController {
         return taskService.createTask(task);
     }
 
+    @GetMapping
+    public List<Task> getAllTasks(){
+        return taskService.getAll();
+    }
     // Получение задачи по ID
     @GetMapping("/{id}")
     public Task getTaskById(@PathVariable Long id) {
         return taskService.getTaskById(id);
     }
-
+    @ExceptionHandler
+    private ResponseEntity<ErrorResponse> handleException(NotFoundException e){
+        ErrorResponse response = new ErrorResponse(
+                "task with this ID wasn't found",
+                System.currentTimeMillis()
+        );
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
     // Получение задач по статусу
     @GetMapping("/status/{status}")
     public List<Task> getTasksByStatus(@PathVariable String status) {
@@ -51,7 +65,6 @@ public class TaskController {
                 .orElseThrow(() -> new RuntimeException("User not found"));
         return taskService.getTasksByAssignee(assignee);
     }
-
     // Получение задач по проекту
     @GetMapping("/project/{projectId}")
     public List<Task> getTasksByProject(@PathVariable Long projectId) {
@@ -62,7 +75,7 @@ public class TaskController {
 
     // Обновление статуса задачи
     @PutMapping("/{taskId}/status")
-    public Task updateTaskStatus(@PathVariable Long taskId, @RequestBody String newStatus) {
+    public Task updateTaskStatus(@PathVariable Long taskId, @RequestBody Task.Status newStatus) {
         return taskService.updateTaskStatus(taskId, newStatus);
     }
 

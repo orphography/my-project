@@ -5,11 +5,10 @@ import org.springframework.stereotype.Repository;
 import ru.roh.springdemo.models.User;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-
-//  List<User> findAll();
-    User findByEmail(String email);
+    //Optional<User> findByEmail(String email);
     boolean existsByEmail(String email);
 }
