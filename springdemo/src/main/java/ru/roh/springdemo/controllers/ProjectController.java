@@ -74,10 +74,10 @@ public class ProjectController {
     }
 
     // Обновление проекта
-    @PutMapping("/{id}")
-    public Project updateProject(@PathVariable Long id, @RequestBody Project project) {
-        return projectService.updateProject(id, project);
-    }
+//    @PutMapping("/{id}")
+//    public Project updateProject(@PathVariable Long id, @RequestBody Project project) {
+//        return projectService.updateProject(id, project);
+//    }
 
     // Удаление проекта
     @DeleteMapping("/{id}")

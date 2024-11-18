@@ -53,11 +53,11 @@ public class TaskService {
     }
 
     // Обновление статуса задачи
-    public Task updateTaskStatus(Long taskId, Task.Status newStatus) {
-        Task task = getTaskById(taskId);
-        task.setStatus(newStatus);
-        return taskRepository.save(task);
-    }
+//    public Task updateTaskStatus(Long taskId, Task.Status newStatus) {
+//        Task task = getTaskById(taskId);
+//        task.setStatus(newStatus);
+//        return taskRepository.save(task);
+//    }
 
     // Обновление задачи
     public Task updateTask(Long id, Task updatedTask) {

@@ -8,17 +8,20 @@ import ru.roh.springdemo.utils.NotFoundException;
 import ru.roh.springdemo.utils.NotCreatedException;
 
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 public class UserService {
 
     @Autowired
     private UserRepository userRepository;
-    public List<User> getAll(){
+
+    public List<User> getAllUsers(){
         return userRepository.findAll();
     }
-
+    public User getUserById(Long id) {
+        return userRepository.findById(id).orElseThrow(() -> new NotFoundException("User with this ID not found"));
+    }
     // Создание нового пользователя
     public User createUser(User user) {
         if(!userRepository.existsByEmail(user.getEmail())) {
@@ -27,25 +30,15 @@ public class UserService {
         else throw new NotCreatedException("A user with this email already exists.");
     }
 
-    // Получить пользователя по email
-
-    // Проверка на существование пользователя по email
-
-    public User getUserById(Long id) {
-        Optional<User> user = userRepository.findById(id);
-        return user.orElseThrow(() -> new NotFoundException("User with this ID not found"));
-    }
-
-    // Обновление информации о пользователе
     public User updateUser(Long id, User updatedUser) {
-        User existingUser = getUserById(id);
-        existingUser.setFirstName(updatedUser.getFirstName());
-        existingUser.setLastName(updatedUser.getLastName());
-        existingUser.setEmail(updatedUser.getEmail());
-        existingUser.setPassword(updatedUser.getPassword());
-        existingUser.setRole(updatedUser.getRole());
-        return userRepository.save(existingUser);
-    }
+        User newUser = getUserById(id);
+        newUser.setFirstName(updatedUser.getFirstName());
+        newUser.setLastName(updatedUser.getLastName());
+        newUser.setEmail(updatedUser.getEmail());
+        newUser.setPassword(updatedUser.getPassword());
+        newUser.setRole(updatedUser.getRole());
+        return userRepository.save(newUser);
+    }//TODO проверить сколько выполняется sql-запросов
 
     // Удаление пользователя
     public void deleteUser(Long id) {

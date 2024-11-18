@@ -74,10 +74,10 @@ public class TaskController {
     }
 
     // Обновление статуса задачи
-    @PutMapping("/{taskId}/status")
-    public Task updateTaskStatus(@PathVariable Long taskId, @RequestBody Task.Status newStatus) {
-        return taskService.updateTaskStatus(taskId, newStatus);
-    }
+//    @PutMapping("/{taskId}/status")
+//    public Task updateTaskStatus(@PathVariable Long taskId, @RequestBody Task.Status newStatus) {
+//        return taskService.updateTaskStatus(taskId, newStatus);
+//    }
 
     // Обновление задачи
     @PutMapping("/{taskId}")
